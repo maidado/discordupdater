@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# made by maidado (mai lawton)
+# this is experimental and might not work idk
+
+localPath="/tmp/discordupdate.tar.gz"
+dlUrl='https://discord.com/api/download?platform=linux&format=tar.gz'
+dcDir="/opt/discord/"
+printf "\nDiscord updater by maidado\n"
+
+if [ "$EUID" -ne 0 ]
+  then echo " !!! Please run as root"
+  exit
+fi
+
+echo " *** Fetching latest build..."
+wget -q --show-progress $dlUrl -O $localPath
+if test -f "$localPath"; then
+    echo " *** Extracting archive"
+    tar -xf $localPath --strip-components=1 -C $dcDir
+    echo " *** Done"
+else
+    echo " !!! Something went wrong..."
+fi
+
+exit 0
